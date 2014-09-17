@@ -27,5 +27,8 @@ epl <- epl[,-c(5,8,9)]
 epl.melt <- melt(epl, id.vars = c("HomeTeam", "AwayTeam"))
 
 ## Create Home/Away casts
-epl.home.cast <- dcast(epl.melt, AwayTeam ~ variable, sum)
+epl.away.cast <- dcast(epl.melt, AwayTeam ~ variable, sum)
 epl.home.cast <- dcast(epl.melt, HomeTeam ~ variable, sum)
+
+nPlot(FTHG~AwayTeam, data=epl.away.cast, type='multiBarChart')
+
