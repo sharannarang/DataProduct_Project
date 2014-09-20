@@ -5,15 +5,45 @@ source('helper.R')
 options(RCHART_LIB = 'dimple')
 
 ## Define the UI for the application
-shinyUI(pageWithSidebar(
-    headerPanel("Football Statistics"),
-    sidebarPanel(
-        selectInput('season', label = h4("Select a season"), choices = list("2013-2014" , "2012-2013" , "2011-2012")),
-        selectInput('stat', label = h4("Select a stat"), choices = list("Total Points", "Total Goals", "Home Goals", "Away Goals"))
-    ),
-    mainPanel(
-        h4('You entered'), 
-        textOutput("oid2"),
-        showOutput("mychart", "dimple")
-    )
+shinyUI(navbarPage("Football Statistics",
+                   tabPanel(" English Premier League ",
+                                sidebarLayout(
+                                    sidebarPanel(
+                                        selectInput('epl_season', label = h4("Select a season"), choices = seasons),
+                                        selectInput('epl_stat', label = h4("Select a stat"), choices = stat_list)
+                                    ),
+                                    mainPanel(
+                                        h4('You entered'), 
+                                        textOutput("oid1"),
+                                        showOutput("eplchart", "dimple")
+                                    )
+                            )
+                   ),
+                   tabPanel(" Spanish La Liga ",
+                            sidebarLayout(
+                                sidebarPanel(
+                                    selectInput('sp_season', label = h4("Select a season"), choices = seasons),
+                                    selectInput('sp_stat', label = h4("Select a stat"), choices = stat_list)
+                                ),
+                                mainPanel(
+                                    h4('You entered'), 
+                                    textOutput("oid2"),
+                                    showOutput("spchart", "dimple")
+                                )
+                            )
+                   ),
+                   tabPanel(" Bundesliga",
+                            sidebarLayout(
+                                sidebarPanel(
+                                    selectInput('bl_season', label = h4("Select a season"), choices = seasons),
+                                    selectInput('bl_stat', label = h4("Select a stat"), choices = stat_list)
+                                ),
+                                mainPanel(
+                                    h4('You entered'), 
+                                    textOutput("oid3"),
+                                    showOutput("blchart", "dimple")
+                                )
+                            )
+                   )
+                   
 ))

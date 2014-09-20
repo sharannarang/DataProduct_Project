@@ -1,5 +1,7 @@
+seasons <- list("2013-2014", "2012-2013", "2011-2012")
+stat_list <- list("Total Points", "Total Goals", "Total Goals Conceeded", "Yellow Cards","Red Cards", "Home Goals", "Away Goals", "Shots On Target")
 
-read_football_data <- function(season = "epl_12_13.csv") {
+read_football_data <- function(season = "epl_2012_2013.csv") {
     ## Read the CSV
     football.data <- read.csv(season)
     
@@ -32,7 +34,7 @@ read_football_data <- function(season = "epl_12_13.csv") {
     
 }
 
-fetch_stats <- function(season = "epl_12_13.csv", stat = "total") {
+fetch_stats <- function(season = "epl_2012_2013.csv", stat = "total") {
     football.data <- read_football_data(season)
     
     ## Melt the data frame
@@ -71,7 +73,7 @@ fetch_stats <- function(season = "epl_12_13.csv", stat = "total") {
 
 
 ## Plot the statistics
-generate_plot <- function(season = "epl_12_13.csv", type = "total", stat="Points") {
+generate_plot <- function(season = "epl_2012_2013.csv", type = "total", stat="Points") {
     f.data <- fetch_stats(season, type)
     if (type == "total"){
         d1 <- dPlot(y = "Team", x = stat, groups = "Team", data = f.data, type="bar")        
@@ -85,4 +87,42 @@ generate_plot <- function(season = "epl_12_13.csv", type = "total", stat="Points
     d1$yAxis(type="addCategoryAxis", orderRule=stat)
     d1$xAxis(type="addMeasureAxis")
     d1
+}
+
+get_stat_type <- function(stat_txt) {
+    switch(stat_txt, 
+           "Total Points" = {
+               type = "total"
+               stat = "Points"
+           },
+           "Total Goals" = {
+               type = "total"
+               stat = "Goals"
+           },
+           "Total Goals Conceeded" = {
+               type = "total"
+               stat = "Goals.Against"
+           },
+           "Yellow Cards" = {
+               type = "total"
+               stat = "Yellow.Cards"
+           },
+           "Red Cards" = {
+               type = "total"
+               stat = "Red.Cards"
+           },
+           "Home Goals"   = {
+               type = "home"
+               stat = "Home.Goals"
+           },
+           "Away Goals"   = {
+               type = "away"
+               stat = "Away.Goals"
+           },   
+           "Shots On Target" = {
+               type = "total"
+               stat = "Shots.On.Target"
+           }
+    )
+    list(type, stat)
 }
