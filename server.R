@@ -31,4 +31,11 @@ shinyServer(function(input, output) {
        bl_d2$set(dom="blchart")
        return(bl_d2)        
    })
+   output$ilchart <- renderChart({
+       il_season_txt <- paste("il_", sub("-","_",input$il_season), ".csv", sep="")
+       il_stat_list <- get_stat_type(input$il_stat)
+       il_d2 <- generate_plot(il_season_txt, as.character(il_stat_list[1]), as.character(il_stat_list[2]))
+       il_d2$set(dom="ilchart")
+       return(il_d2)        
+   })
 })
