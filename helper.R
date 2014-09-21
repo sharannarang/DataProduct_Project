@@ -9,27 +9,41 @@ read_football_data <- function(season = "epl_2012_2013.csv") {
     football.data$HomeTeam <- as.factor(football.data$HomeTeam)
     football.data$AwayTeam <- as.factor(football.data$AwayTeam)
     
-    ## Remove odds columns
-    football.data <- football.data[,1:23]
-    
+    #print(sum(grepl("Referee", colnames(football.data))))
+    if (sum(grepl("Referee", colnames(football.data)))) {
+        ## Remove odds columns
+        football.data <- football.data[,1:23]
+    }
+    else {
+        #print("season1")
+        football.data <- football.data[,1:22]
+    }
+        
     ## Remove division and date of game played
-    football.data <- football.data[,3:23]
-    
-    ## Get referee data
-    referee <- football.data[,9]
+    football.data <- football.data[,-c(1,2)]
     
     ## Get points data from HTR/FTR columns
     football.data$HTFTP <- ifelse(football.data$FTR == 'H', 3, ifelse(football.data$FTR == 'D', 1, 0))
     football.data$ATFTP <- ifelse(football.data$FTR == 'A', 3, ifelse(football.data$FTR == 'D', 1, 0))
     football.data$HTHTP <- ifelse(football.data$HTR == 'H', 3, ifelse(football.data$HTR == 'D', 1, 0))
     football.data$ATHTP <- ifelse(football.data$HTR == 'A', 3, ifelse(football.data$HTR == 'D', 1, 0))
+
+    ## Remove result information from the main data frame
+    football.data <- football.data[,-c(5,8)]
     
-    ## Remove referee, result information from the main data frame
-    football.data <- football.data[,-c(5,8,9)]
-    
+    ## Remove referee information from EPL data.
+    football.data <- football.data[,!grepl("Referee", colnames(football.data))]
+#     if (sum(grepl("Referee", colnames(football.data)))) {
+#         print("Removing the referee")
+#         football.data <- football.data[,-c(9)]
+#     }
+
+    ##print(colnames(football.data))
     ## Give meaningful column names
     colnames(football.data) <- c("HomeTeam", "AwayTeam", "Home.Goals", "Away.Goals", "Half.Time.Home.Goals", "Half.Time.Away.Goals", "Home.Team.Shots", "Away.Team.Shots", "Home.Team.Shots.On.Target", "Away.Team.Shots.On.Target", "Home.Team.Fouls", "Away.Team.Fouls", "Home.Team.Corners", "Away.Team.Corners", "Home.Team.Yellow.Cards", "Away.Team.Yellow.Cards", "Home.Team.Red.Cards", "Away.Team.Red.Cards", "Home.Team.Points", "Away.Team.Points", "Home.Team.Half.Time.Points", "Away.Team.Half.Time.Points")
-    
+        
+    ## Remove NAs
+    football.data[is.na(football.data)] <- 0
     football.data
     
 }

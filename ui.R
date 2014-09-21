@@ -6,10 +6,10 @@ options(RCHART_LIB = 'dimple')
 
 ## Define the UI for the application
 shinyUI(navbarPage("Football Statistics",
-                   tabPanel(" How to use the Website",
+                   tabPanel(" How to use the website",
                             h2("Welcome to the Football Statistics Website!"),
                             br(),
-                            p("This website can be used to display statistics from several of the European Football Leagues. The data to develop statistics was obtained from http://www.football-data.co.uk. The website provides a csv file with results of every league game. 
+                            p("This website displays statistics from several of the European Football Leagues. The data to develop statistics was obtained from http://www.football-data.co.uk. The football-data website records the result of each league game from various european leagues and makes the results available in csv format. 
                               Using the results, I've compiled a set of statistics. In order to use the website, please follow these steps:"),
                             br(),
                             tags$li("Select a league from the Navigation Tabs"),
